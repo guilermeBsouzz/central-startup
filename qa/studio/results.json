@@ -1,0 +1,18 @@
+{
+  "passed": 12,
+  "results": [
+    "One material renderer, local assets and operational screen",
+    "World stage spans the header; layout anchor and resume context present",
+    "Explicit pause stops animation frames and freezes every 2D scene animation",
+    "Pause survives form interaction",
+    "Resumed scene runs on CSS only, with no script frame loop",
+    "Crew action filters colleague without changing identity",
+    "View change keeps one personal 2D scene without a frame loop",
+    "No third-party runtime requests or copied tracking",
+    "No-WebGL vector fallback and reduced motion stay functional",
+    "Account exit remains available on mobile",
+    "Immersive arrival keeps the five-stage roadmap and fallback",
+    "No browser errors"
+  ],
+  "errors": []
+}

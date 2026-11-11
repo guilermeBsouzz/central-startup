@@ -1,0 +1,34 @@
+{
+  "name": "volta-central",
+  "version": "0.3.0",
+  "private": true,
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.cjs --preview",
+    "start:production": "node --env-file-if-exists=.env server.cjs",
+    "check": "tsc --noEmit && node --check workspace.js && node --check personality.js && node --check voice.js && node --check journey.js && node --check orbit-scene.js && node --check arrival.js",
+    "test": "node --test tests/platform.mjs",
+    "test:ui": "node tests/platform-ui.mjs",
+    "member:bind": "node --env-file-if-exists=.env src/bind-member.mts",
+    "backup": "node --env-file-if-exists=.env src/backup-cli.mts",
+    "demo:seed": "node scripts/seed-preview.mjs",
+    "test:studio": "node tests/studio.mjs"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.5.16",
+    "@fastify/cookie": "^11.1.5",
+    "@fastify/rate-limit": "^11.2.2",
+    "fastify": "^5.12.8",
+    "openid-client": "^6.8.9",
+    "pg": "^8.23.1",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^26.6.6",
+    "@types/pg": "^8.23.1",
+    "typescript": "5.9.3"
+  }
+}

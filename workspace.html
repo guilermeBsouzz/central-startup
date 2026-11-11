@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173f35">
+  <meta name="description" content="Central de trabalho da VOLTA: atividades, equipe, agenda e conhecimento.">
+  <title>VOLTA · Central da equipe</title>
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/workspace.css">
+  <link rel="stylesheet" href="/studio.css">
+  <script type="module" src="/orbit-scene.js"></script>
+  <script src="/personality.js" defer></script>
+  <script src="/voice.js" defer></script>
+  <script src="/workspace.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+  <div id="app">
+    <main id="main" class="boot" tabindex="-1" aria-busy="true">
+      <a class="wordmark" href="/" aria-label="VOLTA, trajetória"><img class="volta-symbol" src="/assets/volta-symbol.svg" alt="">volta</a>
+      <h1>Preparando sua central.</h1>
+      <p>Consultando a sessão de acesso…</p>
+    </main>
+  </div>
+  <div id="status" class="live-status" role="status" aria-live="polite" aria-atomic="true"></div>
+  <dialog id="workspace-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+    <div class="dialog-head"><h2 id="dialog-title"></h2><button type="button" class="icon-button" data-action="close-dialog" aria-label="Fechar diálogo">×</button></div>
+    <p id="dialog-description" class="muted"></p>
+    <div id="dialog-content"></div>
+  </dialog>
+  <noscript><p class="noscript">Ative o JavaScript para entrar e trabalhar na central VOLTA. <a href="/">Conheça a trajetória</a>.</p></noscript>
+</body>
+</html>

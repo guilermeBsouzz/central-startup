@@ -1,0 +1,69 @@
+{
+  "results": [
+    {
+      "name": "Journal and seven demo personas",
+      "status": "passed"
+    },
+    {
+      "name": "Create local task with document; no fabricated progress",
+      "status": "passed"
+    },
+    {
+      "name": "Task survives reload",
+      "status": "passed"
+    },
+    {
+      "name": "Edit fields and preserve raw review status separately from progress",
+      "status": "passed"
+    },
+    {
+      "name": "Publish progress into separate after-cut supplement",
+      "status": "passed"
+    },
+    {
+      "name": "Reading does not complete task",
+      "status": "passed"
+    },
+    {
+      "name": "Journal is personalized by task owner",
+      "status": "passed"
+    },
+    {
+      "name": "Filter by responsible member and exact workflow status",
+      "status": "passed"
+    },
+    {
+      "name": "Escape closes native dialog",
+      "status": "passed"
+    },
+    {
+      "name": "Import Markdown safely as text",
+      "status": "passed"
+    },
+    {
+      "name": "Exact reimport does not duplicate document",
+      "status": "passed"
+    },
+    {
+      "name": "Unsupported PDF is rejected explicitly",
+      "status": "passed"
+    },
+    {
+      "name": "Search empty state",
+      "status": "passed"
+    },
+    {
+      "name": "Mobile 390px: no page overflow, detail and Escape",
+      "status": "passed"
+    },
+    {
+      "name": "Mobile 320px: no page overflow, detail and Escape",
+      "status": "passed"
+    },
+    {
+      "name": "No uncaught page errors",
+      "status": "passed"
+    }
+  ],
+  "pageErrors": []
+}

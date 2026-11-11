@@ -1,0 +1,58 @@
+{
+  "results": [
+    {
+      "name": "Text contrast h1",
+      "ratio": 9.14,
+      "status": "passed"
+    },
+    {
+      "name": "Text contrast .page-description",
+      "ratio": 9.52,
+      "status": "passed"
+    },
+    {
+      "name": "Text contrast .greeting",
+      "ratio": 9.42,
+      "status": "passed"
+    },
+    {
+      "name": "Text contrast .feed-item .item-title",
+      "ratio": 10.9,
+      "status": "passed"
+    },
+    {
+      "name": "Text contrast .feed-item p",
+      "ratio": 5.86,
+      "status": "passed"
+    },
+    {
+      "name": "Text contrast .context-block h2",
+      "ratio": 9.14,
+      "status": "passed"
+    },
+    {
+      "name": "Hero, people, search and work share grid rails",
+      "status": "passed"
+    },
+    {
+      "name": "Primary button has visible hover color and lift",
+      "status": "passed"
+    },
+    {
+      "name": "Task box hover has directional feedback",
+      "status": "passed"
+    },
+    {
+      "name": "Graph hover animates only the inspected relation",
+      "status": "passed"
+    },
+    {
+      "name": "Reduced motion disables graph animation",
+      "status": "passed"
+    },
+    {
+      "name": "Mobile grid stays inside viewport",
+      "status": "passed"
+    }
+  ]
+}

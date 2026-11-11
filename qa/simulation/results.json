@@ -1,0 +1,23 @@
+{
+  "artificial": true,
+  "counts": {
+    "tasks": 21,
+    "reports": 38,
+    "comments": 13,
+    "helpRequests": 7,
+    "publications": 6,
+    "documents": 4,
+    "notificationsForGuilherme": 4
+  },
+  "verified": [
+    "21 tasks, 3 per member",
+    "progress matches latest report",
+    "completed tasks at 100%",
+    "6 publications",
+    "4 documents",
+    "entry alert",
+    "populated journal/team/agenda",
+    "mobile without horizontal overflow"
+  ],
+  "errors": []
+}

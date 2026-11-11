@@ -1,0 +1,15 @@
+{
+  "passed": 10,
+  "results": [
+    "Five sourced chapters",
+    "Scroll advances line",
+    "Line reaches final milestone",
+    "Reverse scroll and native keyboard navigation",
+    "Every image loads",
+    "No page errors or missing resources",
+    "Entry and dashboard links work",
+    "Responsive and reduced motion 390",
+    "Responsive and reduced motion 320",
+    "Dashboard canonical redirect"
+  ]
+}

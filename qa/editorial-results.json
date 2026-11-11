@@ -1,0 +1,53 @@
+{
+  "results": [
+    {
+      "name": "Seven selectors; counts exclude completed tasks",
+      "status": "passed"
+    },
+    {
+      "name": "Graph maps five real demo tasks, with explicit state and two owned links",
+      "status": "passed"
+    },
+    {
+      "name": "Member selection updates journal, native select and graph highlights",
+      "status": "passed"
+    },
+    {
+      "name": "Keyboard graph selection opens the correct task",
+      "status": "passed"
+    },
+    {
+      "name": "Selected member survives reload",
+      "status": "passed"
+    },
+    {
+      "name": "Project subscriptions update journal and review counts",
+      "status": "passed"
+    },
+    {
+      "name": "Missing source is dashed and never presented as a real document link",
+      "status": "passed"
+    },
+    {
+      "name": "980px: no horizontal overflow; all seven people accessible",
+      "status": "passed"
+    },
+    {
+      "name": "768px: no horizontal overflow; all seven people accessible",
+      "status": "passed"
+    },
+    {
+      "name": "390px: no horizontal overflow; all seven people accessible",
+      "status": "passed"
+    },
+    {
+      "name": "320px: no horizontal overflow; all seven people accessible",
+      "status": "passed"
+    },
+    {
+      "name": "No uncaught browser errors",
+      "status": "passed"
+    }
+  ],
+  "pageErrors": []
+}

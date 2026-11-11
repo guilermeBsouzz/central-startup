@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-11",
+  "command": "npm test",
+  "driver": "PGlite in memory",
+  "passed": 16,
+  "failed": 0,
+  "tests": [
+    "identity: seven people, private API, CSRF and origin isolation",
+    "tasks: idempotent creation, retry mismatch, no completion shortcut",
+    "progress: report required, owner enforced, atomic update and stale conflict",
+    "two simultaneous updates preserve one version and one report",
+    "comments: mentions target a member and priority is independent",
+    "help: notification, destination, assume and resolve without closing task",
+    "publications: all members publish, important events have individual confirmations",
+    "event material changes renotify; typo does not; cancel notification remains",
+    "documents: MD import, duplicate detection, no content execution",
+    "preferences: personal themes are persisted independently",
+    "reminders: weekdays only, one delivery per member/day",
+    "database rollback preserves consistency and audit trail exists",
+    "backup restores business records with integrity and without sessions",
+    "logout revokes session and inactive members lose access",
+    "embedded database survives restart (preview only)",
+    "production refuses an embedded database or missing configuration"
+  ],
+  "source_sha256": "5e8020000431dba1744029d4f242084765eacc2db552b18c7102c308a2402b39",
+  "hostedPostgresTested": false,
+  "realOIDCProviderTested": false
+}
