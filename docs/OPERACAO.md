@@ -60,7 +60,9 @@ set DATA_DIR=.data/recuperacao
 npm run backup -- restore-empty .data/backups/volta.json
 ```
 
-O arquivo contém informações privadas; guarde-o fora de pastas públicas. O hash detecta alteração acidental, não substitui criptografia nem assinatura. Em produção, complemente com backups gerenciados/PITR do provedor e ensaio de restauração. Não há agendamento automático de backup neste núcleo. Se uma queda deixar `.volta-lock`, confirme que nenhum processo está usando a `DATA_DIR` antes de remover exclusivamente esse arquivo; não apague os dados.
+O arquivo contém informações privadas; guarde-o fora de pastas públicas. O hash detecta alteração acidental, não substitui criptografia nem assinatura. Em produção, complemente com backups gerenciados/PITR do provedor e ensaio de restauração. Não há agendamento automático de backup neste núcleo.
+
+Falhas de inicialização (por exemplo, porta ocupada) fecham o banco e liberam `.volta-lock`. Um encerramento abrupto ainda pode deixar esse arquivo. Ele contém o PID do processo: confirme que esse processo encerrou e que nenhuma outra instância usa a mesma `DATA_DIR` antes de remover exclusivamente o bloqueio; não apague o diretório do banco. Na prévia padrão, consulte o PID com `Get-Content .data/preview/.volta-lock` e o processo com `Get-Process -Id PID` no PowerShell. A mensagem `.env not found. Continuing without it.` é informativa: a prévia funciona sem `.env`.
 
 ## Limites e rastreabilidade
 
