@@ -1,6 +1,26 @@
+# Dependências
 node_modules/
-.data/
+
+# Segredos e ambiente
 .env
+.env.*
+!.env.example
+
+# Dados locais e cópias de segurança
+.data/
 backups/
+
+# Saídas de teste e QA (o acervo versionado fica em artifacts/qa)
 test-results/
 playwright-report/
+
+# Ferramentas locais e hospedagem
+.claude/
+.vercel/
+*.tsbuildinfo
+npm-debug.log*
+
+# Lixo do sistema de arquivos
+Thumbs.db
+desktop.ini
+.DS_Store
