@@ -65,3 +65,9 @@ Mudanças de comportamento no cliente: a atividade em destaque passa a ser a de 
 Direção em [DIRECAO-CYERA.md](../design/DIRECAO-CYERA.md). Reescritos: `personality.js`, `orbit-scene.js`; alterados: `studio.css` (seções de tokens, palco, chegada, larguras e nova seção de cena), `workspace.js`, `journey.html`, `arrival.js`, `tests/e2e/studio.mjs`. Novo: `scripts/qa/probe-motion.mjs`. Versão 3D em `archive/studio-v2-3d/`.
 
 Executado: `npm run check` passou; `npm test` **16**; `npm run test:ui` **19**; `npm run test:studio` **12** (o cenário de pausa agora confere que todas as animações da cena ficam em `paused`); `node scripts/demo/check-demo.mjs` confirmou as 21 atividades fictícias; `node scripts/qa/probe-motion.mjs` confirmou que as animações avançam e congelam na pausa. Capturas em 1440, 900, 390 e 320 px e das sete personas em `artifacts/qa/redesign/`, sem erros de console nem rolagem horizontal. Contraste das sete paletas não foi medido por ferramenta; os fundos foram escolhidos escuros o bastante para texto creme, o que ainda precisa de verificação formal.
+
+## Limpeza de 13/11/2026
+
+Resíduos da troca de 3D para 2D, retirados sem mudança de comportamento visível: dependência `three` removida do `package.json` (24 MB em `node_modules`), rotas `/vendor/three.module.js` e `/vendor/three.core.js` retiradas de `src/server/static.mts`, e `expressive.css` tirado do runtime para `archive/studio-v1/`. Nenhuma página carregava qualquer um deles. A regra de URLs estáveis da reorganização deixa de valer para essas três rotas, que agora respondem 404; `tests/integration/static-assets.mjs` passou a exigir esse 404. Texto de operação que ainda descrevia a cena 3D foi corrigido.
+
+Executado após a limpeza: `npm run check` passou; `npm test` **24**; `npm run test:ui` **19**; `npm run test:studio` **12**. Nenhum arquivo de dados, captura versionada ou registro histórico foi apagado.

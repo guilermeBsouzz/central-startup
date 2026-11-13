@@ -50,15 +50,19 @@ test('entry pages and all linked local resources remain available after relocati
   assert.ok(types.has('image/png'));
 });
 
-test('compatibility URLs keep their pages, vendor modules and redirects', async () => {
+test('compatibility URLs keep their pages and redirects, and retired routes are gone', async () => {
   const home = await app.inject('/');
   for (const route of ['/index.html', '/journey.html']) {
     const response = await app.inject(route);
     assert.equal(response.statusCode, 200);
     assert.equal(response.body, home.body);
   }
-  for (const route of ['/expressive.css', '/vendor/three.module.js', '/vendor/three.core.js', '/assets/CREDITOS.md']) {
+  for (const route of ['/assets/CREDITOS.md', '/favicon.svg']) {
     assert.equal((await app.inject(route)).statusCode, 200, route);
+  }
+  // Retirados em 13/11/2026: nenhuma página os carregava.
+  for (const route of ['/expressive.css', '/vendor/three.module.js', '/vendor/three.core.js']) {
+    assert.equal((await app.inject(route)).statusCode, 404, route);
   }
   const redirect = await app.inject('/jornal/');
   assert.equal(redirect.statusCode, 308);
@@ -69,7 +73,7 @@ test('static resolution is independent of the process working directory', async 
   const previous = process.cwd();
   try {
     process.chdir(tmpdir());
-    for (const route of ['/', '/workspace.js', '/assets/volta-symbol.svg', '/vendor/three.module.js']) {
+    for (const route of ['/', '/workspace.js', '/assets/volta-symbol.svg', '/studio.css']) {
       assert.equal((await app.inject(route)).statusCode, 200, route);
     }
   } finally {

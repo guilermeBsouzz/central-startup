@@ -3,7 +3,6 @@ import { extname } from 'node:path';
 import type { FastifyInstance } from 'fastify';
 
 const clientRoot = new URL('../client/', import.meta.url);
-const vendorRoot = new URL('../../node_modules/three/build/', import.meta.url);
 
 // Explicit routes prevent repository files and local data from being published.
 const files: Record<string, URL> = {
@@ -18,14 +17,11 @@ const files: Record<string, URL> = {
   '/orbit-scene.js': new URL('scripts/orbit-scene.js', clientRoot),
   '/arrival.js': new URL('scripts/arrival.js', clientRoot),
   '/workspace.css': new URL('styles/workspace.css', clientRoot),
-  '/expressive.css': new URL('styles/expressive.css', clientRoot),
   '/journey.css': new URL('styles/journey.css', clientRoot),
   '/studio.css': new URL('styles/studio.css', clientRoot),
   '/favicon.svg': new URL('favicon.svg', clientRoot),
   '/assets/volta-symbol.svg': new URL('assets/volta-symbol.svg', clientRoot),
   '/assets/surface-grain.svg': new URL('assets/surface-grain.svg', clientRoot),
-  '/vendor/three.module.js': new URL('three.module.js', vendorRoot),
-  '/vendor/three.core.js': new URL('three.core.js', vendorRoot),
 };
 
 for (const font of ['space-grotesk', 'manrope']) {

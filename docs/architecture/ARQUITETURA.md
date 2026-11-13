@@ -65,7 +65,8 @@ Os recursos privados ficam em `src/client/` para passar pelo servidor e evitar u
 
 - `/`, `/index.html` e `/journey.html` continuam entregando a trajetória.
 - `/jornal` continua entregando a central e `/jornal/` mantém seu redirecionamento.
-- As URLs dos scripts, estilos, `/assets/`, favicon e `/vendor/three.*` permanecem estáveis; seus destinos físicos mudaram.
+- As URLs dos scripts, estilos, `/assets/` e favicon permanecem estáveis; seus destinos físicos mudaram.
+- `/expressive.css` e `/vendor/three.*` foram retirados em 13/11/2026 e respondem 404: nenhuma página os carregava. As fontes antigas estão em `archive/`.
 - `src/app.mts` preserva o handler padrão e os exports usados pela integração. `server.cjs`, os comandos npm e `iniciar.cmd` continuam sendo entradas públicas do projeto.
 - `.data/preview`, o manifesto da demonstração e os destinos de backup não são movidos.
 

@@ -5,7 +5,7 @@ Esta pasta preserva fontes e verificações de versões anteriores. Nenhum arqui
 | Pasta | Conteúdo |
 |---|---|
 | `prototype-v0.2/` | Protótipo editorial com estado local no navegador |
-| `studio-v1/` | Fontes da primeira composição visual |
+| `studio-v1/` | Fontes da primeira composição visual, mais o `expressive.css` anterior a ela |
 | `studio-v2-3d/` | Fontes da composição com cena 3D |
 | `tests/` | Verificações antigas de smoke, editorial, visual e trajetória |
 
