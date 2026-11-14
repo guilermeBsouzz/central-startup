@@ -22,3 +22,9 @@ test('Vercel entry exports a handler and fails safely without production configu
   if(previous===undefined)delete process.env.DATABASE_URL;else process.env.DATABASE_URL=previous;
  }
 });
+
+test('the api/ function entry re-exports the same handler', async () => {
+ const [entry, app] = await Promise.all([import('../../api/index.ts'), import('../../src/app.mts')]);
+ assert.equal(typeof entry.default, 'function');
+ assert.equal(entry.default, app.default);
+});

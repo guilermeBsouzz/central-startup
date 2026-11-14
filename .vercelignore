@@ -1,0 +1,10 @@
+# Fora do runtime: a função só precisa de api/, src/ e package.json.
+archive/
+artifacts/
+docs/
+tests/
+scripts/qa/
+scripts/demo/
+test-results/
+.data/
+.claude/

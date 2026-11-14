@@ -99,7 +99,22 @@ A cena ocupa o topo de cada página, posicionada por uma âncora do layout, e o 
 
 `src/app.mts` exporta um handler HTTP padrão para a Vercel, com inicialização única por instância e sem abrir porta ou iniciar timers. A fábrica `buildApp` continua disponível para prévia local e testes. Configure `DATABASE_URL` (PostgreSQL externo), `PUBLIC_ORIGIN` (URL HTTPS do site), `OIDC_ISSUER`, `OIDC_CLIENT_ID` e `OIDC_CLIENT_SECRET`. O retorno OIDC deve ser `PUBLIC_ORIGIN/auth/callback`; as identidades dos membros precisam ser vinculadas antes do acesso. Não publique `.env` nem `.data`.
 
-Sem configuração válida, a entrada responde 503 genérico e registra o erro nos logs do servidor. O handler não executa o timer local de lembretes: em hospedagem serverless, o agendamento continua pendente de configuração externa. Validação da entrada: `node --test tests/integration/vercel-entry.mjs`; isso não substitui um teste no ambiente publicado com PostgreSQL e OIDC reais.
+Sem configuração válida, a entrada responde 503 genérico e registra o erro nos logs do servidor.
+### Arquivos de publicação
+
+`api/index.ts` é a função que a Vercel executa: o runtime cria uma função por arquivo em `api/`, e esse arquivo apenas reexporta o handler de `src/app.mts`. `vercel.json` encaminha todas as rotas para essa função e declara `includeFiles: src/**`, necessário porque o servidor lê arquivos em tempo de execução: as páginas, estilos, scripts e fontes de `src/client/` e o `schema.sql` da migração. Sem esse include, a primeira requisição falha ao ler o esquema. `.vercelignore` mantém fora do envio o acervo de capturas, os documentos, os testes e o `archive/`.
+
+`package.json` declara `"type": "module"` para que `api/index.ts` seja tratado como ES module; `engines.node` fixa a major 24.
+
+### Passo a passo
+
+1. Crie o PostgreSQL gerenciado e guarde a URL de conexão **com pool**: em serverless cada instância abre seu próprio pool e, sem pooling, o banco esgota conexões.
+2. Escolha e configure o provedor OIDC. O retorno é `PUBLIC_ORIGIN/auth/callback`.
+3. Vincule o projeto da Vercel a este repositório e defina as cinco variáveis no ambiente de produção.
+4. Publique. Na primeira conexão o próprio servidor cria o esquema e cadastra os sete membros; não há migração manual.
+5. Vincule cada identidade com `npm run member:bind`, apontando `DATABASE_URL` para o banco de produção. Enquanto um membro não estiver vinculado, o provedor autentica mas a central recusa a entrada.
+
+Os lembretes diários continuam sem agendamento: o handler não roda o timer e não existe rota de cron protegida. Em hospedagem serverless isso exige uma rota dedicada com segredo próprio, decisão ainda não tomada. O handler não executa o timer local de lembretes: em hospedagem serverless, o agendamento continua pendente de configuração externa. Validação da entrada: `node --test tests/integration/vercel-entry.mjs`; isso não substitui um teste no ambiente publicado com PostgreSQL e OIDC reais.
 
 
 ## Saídas de verificação
