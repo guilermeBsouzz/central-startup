@@ -108,6 +108,8 @@ Sem configuração válida, a entrada responde 503 genérico e registra o erro n
 
 ### Passo a passo
 
+O roteiro completo, com os cliques de cada painel e o que fazer quando algo falha, está em [Publicar a central](DEPLOY.md). Resumo:
+
 1. Crie o PostgreSQL gerenciado e guarde a URL de conexão **com pool**: em serverless cada instância abre seu próprio pool e, sem pooling, o banco esgota conexões.
 2. Configure o provedor de login. A equipe escolheu o Google; a seção "Provedor escolhido" abaixo tem o passo a passo.
 3. Vincule o projeto da Vercel a este repositório e defina as cinco variáveis no ambiente de produção.

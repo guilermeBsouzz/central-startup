@@ -39,6 +39,7 @@ Os testes de navegador usam Chrome; configure `CHROME_PATH` em outro ambiente. N
 ## Documentação
 
 - [Arquitetura e regras de organização](docs/architecture/ARQUITETURA.md)
+- [Publicar a central pela primeira vez](docs/DEPLOY.md)
 - [Operação, produção, backup e demonstração](docs/OPERACAO.md)
 - [Decisões do núcleo](docs/architecture/DECISOES-v0.3.md)
 - [Direção visual](docs/design/DIRECAO-CYERA.md)
