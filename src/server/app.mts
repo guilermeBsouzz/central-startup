@@ -182,8 +182,12 @@ export async function buildApp(options: {
             fail(403, 'Identidade não confirmada pelo provedor.');
         const issuerNamespace = process.env.OIDC_ISSUER || identity!.serverMetadata().issuer;
         const member = (await db.query('SELECT id FROM members WHERE oidc_sub=$1 AND active=true', [issuerNamespace + '|' + claims!.sub])).rows[0];
-        if (!member)
+        if (!member) {
+            // O subject do provedor só aparece aqui. Sem este registro, o operador não
+            // tem como descobrir o valor que member:bind exige para a primeira entrada.
+            req.log.warn({ oidcIssuer: issuerNamespace, oidcSubject: claims!.sub }, 'Identidade autenticada sem vínculo com um membro.');
             fail(403, 'Esta identidade ainda não foi convidada para a VOLTA.');
+        }
         await session(reply, member.id, req.sessionId);
         return reply.redirect('/jornal');
     });

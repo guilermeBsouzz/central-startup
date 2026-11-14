@@ -113,6 +113,9 @@ Sem configuração válida, a entrada responde 503 genérico e registra o erro n
 3. Vincule o projeto da Vercel a este repositório e defina as cinco variáveis no ambiente de produção.
 4. Publique. Na primeira conexão o próprio servidor cria o esquema e cadastra os sete membros; não há migração manual.
 5. Vincule cada identidade com `npm run member:bind`, apontando `DATABASE_URL` para o banco de produção. Enquanto um membro não estiver vinculado, o provedor autentica mas a central recusa a entrada.
+### Descobrir o subject para o vínculo
+
+O `member:bind` exige o subject do provedor, que não aparece em nenhum painel. O caminho é: a pessoa tenta entrar uma vez e recebe "Esta identidade ainda não foi convidada"; o servidor registra `oidcIssuer` e `oidcSubject` nos logs da hospedagem; o operador lê o valor ali e executa o vínculo. O registro só acontece nesse caminho de recusa e o subject sozinho não dá acesso a nada.
 
 Os lembretes diários continuam sem agendamento: o handler não roda o timer e não existe rota de cron protegida. Em hospedagem serverless isso exige uma rota dedicada com segredo próprio, decisão ainda não tomada. O handler não executa o timer local de lembretes: em hospedagem serverless, o agendamento continua pendente de configuração externa. Validação da entrada: `node --test tests/integration/vercel-entry.mjs`; isso não substitui um teste no ambiente publicado com PostgreSQL e OIDC reais.
 
