@@ -109,7 +109,7 @@ Sem configuração válida, a entrada responde 503 genérico e registra o erro n
 ### Passo a passo
 
 1. Crie o PostgreSQL gerenciado e guarde a URL de conexão **com pool**: em serverless cada instância abre seu próprio pool e, sem pooling, o banco esgota conexões.
-2. Escolha e configure o provedor OIDC. O retorno é `PUBLIC_ORIGIN/auth/callback`.
+2. Configure o provedor de login. A equipe escolheu o Google; a seção "Provedor escolhido" abaixo tem o passo a passo.
 3. Vincule o projeto da Vercel a este repositório e defina as cinco variáveis no ambiente de produção.
 4. Publique. Na primeira conexão o próprio servidor cria o esquema e cadastra os sete membros; não há migração manual.
 5. Vincule cada identidade com `npm run member:bind`, apontando `DATABASE_URL` para o banco de produção. Enquanto um membro não estiver vinculado, o provedor autentica mas a central recusa a entrada.
@@ -123,3 +123,18 @@ Os lembretes diários continuam sem agendamento: o handler não roda o timer e n
 ## Saídas de verificação
 
 Testes e scripts de QA gravam novas capturas em `test-results/`, ignorado pelo Git. O acervo já versionado fica em `artifacts/qa/`. Para atualizar esse acervo intencionalmente, defina `QA_OUTPUT_DIR=artifacts/qa` antes de executar o comando correspondente. Execute os comandos desta página a partir da raiz do repositório.
+
+### Provedor escolhido: Entrar com o Google
+
+Conferido no documento de descoberta em 14/11/2026: o emissor é exatamente `https://accounts.google.com`, com PKCE S256, `client_secret_basic` e os escopos `openid` e `profile` — tudo o que a central usa, sem necessidade de habilitar nada a mais.
+
+Configuração no Google Auth Platform, em `console.developers.google.com/auth`:
+
+1. **Branding**: registre a aplicação. Esse registro é pré-requisito para criar o cliente.
+2. **Audience**: escolha o tipo **External**. O tipo Internal exige uma organização do Google Cloud, que uma conta Gmail comum não tem.
+3. **Clients**: *Create client*, tipo *Web application*. O segredo aparece uma única vez, na criação; depois o painel mostra só os quatro últimos caracteres.
+4. **URI de redirecionamento autorizado**: `PUBLIC_ORIGIN/auth/callback`, exatamente, em HTTPS e sem barra no fim. Divergência de esquema, caminho ou barra final gera `redirect_uri_mismatch`. A alteração pode levar de cinco minutos a algumas horas para valer.
+
+Como a central pede apenas `openid` e `profile`, o projeto pode ficar com status *Testing* sem cadastrar usuários de teste e sem a expiração de sete dias, e não precisa passar pela verificação de aplicativo: é a exceção que o Google documenta para "Entrar com o Google" com esses escopos. Quem controla o acesso é o vínculo de identidade da própria central — autenticar no Google não basta para entrar.
+
+Variáveis correspondentes: `OIDC_ISSUER=https://accounts.google.com`, com o ID e o segredo do cliente criado acima.
