@@ -9,7 +9,7 @@ Ao final existem três sistemas conversando: a **Vercel** executa o código, um 
 | Conta | Para quê | Custo |
 |---|---|---|
 | Vercel | executar a aplicação | gratuito |
-| Neon ou Supabase | PostgreSQL | gratuito |
+| Neon ✔ | PostgreSQL | gratuito |
 | Google Cloud | login dos sete membros | gratuito |
 
 Todas aceitam entrar com a conta do GitHub ou do Google. Nenhuma senha ou segredo precisa passar por outra pessoa: tudo é colado direto nos painéis.
@@ -22,11 +22,21 @@ O Google exige o endereço exato de retorno, e esse endereço só existe depois 
 banco  →  Vercel (falha com 503)  →  Google  →  variáveis  →  redeploy  →  vínculos
 ```
 
-## Etapa 1 — Banco de dados
+## Etapa 1 — Banco de dados ✔ feito
 
-1. Crie um projeto no [Neon](https://neon.tech) (ou Supabase), região mais próxima do Brasil.
-2. Copie a connection string **com pooling**. No Neon é a opção *Pooled connection*; a URL tem `-pooler` no host.
-3. Guarde a URL inteira, inclusive o `?sslmode=require` do final.
+O projeto já existe: **volta-central** (`rapid-bonus-16610317`) no Neon, região São Paulo (`aws-sa-east-1`), PostgreSQL 18.
+Painel: <https://console.neon.tech/app/projects/rapid-bonus-16610317/>
+
+A `neon init` escreveu as duas connection strings em `.env.local`, na raiz do repositório, fora do Git:
+
+| Variável | Para quê |
+| --- | --- |
+| `DATABASE_URL` | **a que vai para a Vercel** — com pooling (tem `-pooler` no host) |
+| `DATABASE_URL_UNPOOLED` | conexão direta, para migração ou inspeção pontual |
+
+Para ver o valor sem abrir o arquivo em tela cheia: `neon connection-string`.
+
+Como o banco está em São Paulo, o `vercel.json` fixa a função em `gru1` (mesma cidade). Se a Vercel recusar a região no seu plano, tire a linha `"regions"` do arquivo — o site sobe em `iad1` e cada consulta passa a custar uns 120 ms a mais.
 
 **Por que pooling:** em serverless cada instância abre seu próprio conjunto de conexões. Com a URL direta, algumas visitas simultâneas esgotam o limite do plano gratuito e o site começa a responder 503.
 
@@ -96,9 +106,10 @@ Para cada pessoa:
 3. Com o `.env` local preenchido assim, na raiz do repositório:
 
    ```
-   DATABASE_URL=a mesma URL da etapa 1
    OIDC_ISSUER=https://accounts.google.com
    ```
+
+   O `DATABASE_URL` não precisa ser repetido: `npm run member:bind` também lê o `.env.local` que a Neon mantém.
 
    execute, trocando o ID e o subject:
 
@@ -110,7 +121,7 @@ Para cada pessoa:
 
 Os sete IDs são fixos: `jose-isaias`, `clara-prado`, `amanda`, `julia-alves`, `igor`, `guilherme`, `jose-roberto`.
 
-O `.env` fica fora do Git, mas contém a senha do banco de produção. Apague quando terminar os vínculos, ou guarde com o mesmo cuidado de uma senha.
+`.env` e `.env.local` ficam fora do Git, mas o segundo contém a senha do banco de produção. Trate os dois como senha: nada de colar em conversa, issue ou captura de tela.
 
 ## Quando algo falha
 

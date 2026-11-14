@@ -8,12 +8,12 @@
   },
   "scripts": {
     "start": "node --env-file-if-exists=.env server.cjs --preview",
-    "start:production": "node --env-file-if-exists=.env server.cjs",
+    "start:production": "node --env-file-if-exists=.env --env-file-if-exists=.env.local server.cjs",
     "check": "tsc --noEmit && node scripts/check.mjs",
     "test": "node --test tests/integration/*.mjs",
     "test:ui": "node tests/e2e/platform-ui.mjs",
-    "member:bind": "node --env-file-if-exists=.env scripts/admin/bind-member.mts",
-    "backup": "node --env-file-if-exists=.env scripts/admin/backup.mts",
+    "member:bind": "node --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/admin/bind-member.mts",
+    "backup": "node --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/admin/backup.mts",
     "demo:seed": "node scripts/demo/seed-preview.mjs",
     "demo:check": "node scripts/demo/check-demo.mjs",
     "test:studio": "node tests/e2e/studio.mjs"
