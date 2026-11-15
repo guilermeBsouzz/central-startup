@@ -23,7 +23,7 @@ A prévia é restrita a loopback. O seletor inicial abre sessões demonstrativas
 - Relatório obrigatório na mudança de percentual, autoria, próximo passo, histórico e conflito de edição explícito. Atalho direto na lista e ditado opcional em português no relato e no próximo passo.
 - Comentários prioritários, menções e pedidos de ajuda com notificação por destinatário.
 - Eventos/oportunidades, alertas importantes e confirmação individual persistente.
-- Lembrete agrupado de segunda a sexta após 16h, America/Sao_Paulo, enquanto o servidor está ativo; não inclui calendário de feriados. Retomar o servidor no mesmo dia recupera a execução, sem duplicar entrega.
+- Lembrete agrupado de segunda a sexta após 16h, America/Sao_Paulo; não inclui calendário de feriados. No servidor local quem marca a hora é um timer do processo, e retomar o servidor no mesmo dia recupera a execução sem duplicar entrega; na hospedagem, quem chama é o agendador da Vercel (veja "Lembretes em dias úteis na hospedagem").
 - Importação de MD/TXT até 1 MB, restrita ao autor por padrão ou compartilhada com a equipe por escolha explícita. Documentos não são executados.
 - Temas de contraste/daltonismo, texto ampliado e movimento reduzido.
 
@@ -119,7 +119,19 @@ O roteiro completo, com os cliques de cada painel e o que fazer quando algo falh
 
 O `member:bind` exige o subject do provedor, que não aparece em nenhum painel. O caminho é: a pessoa tenta entrar uma vez e recebe "Esta identidade ainda não foi convidada"; o servidor registra `oidcIssuer` e `oidcSubject` nos logs da hospedagem; o operador lê o valor ali e executa o vínculo. O registro só acontece nesse caminho de recusa e o subject sozinho não dá acesso a nada.
 
-Os lembretes diários continuam sem agendamento: o handler não roda o timer e não existe rota de cron protegida. Em hospedagem serverless isso exige uma rota dedicada com segredo próprio, decisão ainda não tomada. O handler não executa o timer local de lembretes: em hospedagem serverless, o agendamento continua pendente de configuração externa. Validação da entrada: `node --test tests/integration/vercel-entry.mjs`; isso não substitui um teste no ambiente publicado com PostgreSQL e OIDC reais.
+### Lembretes em dias úteis na hospedagem
+
+Na prévia e no servidor local, quem marca a hora é um timer dentro do processo. Fora dali o processo é efêmero — uma função por requisição — então o horário vem de fora: a Vercel chama `GET /jobs/reminders` conforme o `crons` do `vercel.json` (`0 19 * * 1-5`, UTC, ou seja 16h em São Paulo).
+
+A rota exige `Authorization: Bearer $CRON_SECRET` e compara o valor em tempo constante. Sem `CRON_SECRET` configurado ela responde 404, e na prévia ela nunca existe. Configurar:
+
+1. Gere um segredo longo e aleatório e guarde só na hospedagem.
+2. `vercel env add CRON_SECRET production` e cole o valor.
+3. Publique de novo: o agendamento vale a partir do próximo deploy.
+
+O `dailyReminders` mantém a própria disciplina: pula fim de semana e horas antes das 16h no fuso de cada pessoa, agrupa por `dedupe_key` (uma notificação por pessoa por dia) e, na mesma transação, apaga sessões e fluxos OIDC vencidos. Chamar a rota mais de uma vez no mesmo dia não duplica nada.
+
+Validação da entrada: `node --test tests/integration/vercel-entry.mjs` e `node --test tests/integration/cron-reminders.mjs`; isso não substitui um teste no ambiente publicado com PostgreSQL e OIDC reais.
 
 
 ## Saídas de verificação

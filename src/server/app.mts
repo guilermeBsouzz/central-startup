@@ -1,13 +1,14 @@
 import Fastify from 'fastify';
 import cookie from '@fastify/cookie';
 import rateLimit from '@fastify/rate-limit';
-import { createHash, randomBytes } from 'node:crypto';
+import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 import * as oidc from 'openid-client';
 import type { Database } from './database/client.mts';
 import { openDatabase } from './database/client.mts';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { registerDomain } from './domain.mts';
 import { registerStaticRoutes } from './static.mts';
+import { dailyReminders } from './jobs.mts';
 export const digest = (s: string) => createHash('sha256').update(s).digest('hex');
 // Vercel imports this module directly. Keep initialization lazy so importing
 // buildApp for local development and tests never opens a production database.
@@ -193,6 +194,22 @@ export async function buildApp(options: {
     });
     await registerDomain(app, db);
     registerStaticRoutes(app, preview);
+    // Lembretes em dias úteis. Fora da prévia, o processo é efêmero (uma função por
+    // requisição), então quem marca a hora é um agendador externo: a Vercel chama esta
+    // rota com Authorization: Bearer $CRON_SECRET. Sem o segredo configurado, a rota não
+    // existe — assim nenhum ambiente responde a ela por acidente.
+    app.get('/jobs/reminders', async (req) => {
+        const secret = process.env.CRON_SECRET;
+        if (preview || !secret)
+            fail(404, 'Rota não encontrada.');
+        const offered = Buffer.from(String(req.headers.authorization || ''));
+        const expected = Buffer.from('Bearer ' + secret);
+        if (offered.length !== expected.length || !timingSafeEqual(offered, expected))
+            fail(403, 'Autorização inválida.');
+        const inserted = await dailyReminders(db);
+        req.log.info({ inserted }, 'Lembretes do dia processados.');
+        return { ok: true, inserted };
+    });
     app.get('/health', async () => ({ status: 'ok', mode: preview ? 'preview' : 'oidc' }));
     return app;
 }

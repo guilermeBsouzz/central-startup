@@ -135,12 +135,13 @@ Os sete IDs são fixos: `jose-isaias`, `clara-prado`, `amanda`, `julia-alves`, `
 | "Esta identidade ainda não foi convidada" | falta o vínculo | etapa 6 |
 | "Entrada expirada. Inicie novamente." | o login demorou mais de 10 minutos | tente de novo |
 | Erro de conexão com o banco | falta `sslmode` ou a URL foi cortada | cole a URL inteira, como o provedor deu |
+| `ENOTFOUND` com um host que você não reconhece | a `DATABASE_URL` foi salva **com aspas dentro do valor** | tire as aspas; `vercel link` reescreve o `.env.local` colocando aspas em todos os valores, e elas vão junto no copiar e colar |
 
 Os logs ficam em *Deployments → Runtime Logs*. Erros de servidor aparecem lá com a mensagem real; o visitante vê só o texto genérico.
 
 ## O que continua pendente
 
-- **Lembretes diários não rodam.** O timer existe no servidor local, mas o handler serverless não o executa. Em produção isso exige uma rota de cron com segredo próprio, ainda não construída.
+- **Lembretes dependem do `CRON_SECRET`.** A rota `/jobs/reminders` e o agendamento no `vercel.json` existem desde 15/11/2026; enquanto a variável não estiver na hospedagem, a rota responde 404 e ninguém recebe lembrete. Veja "Lembretes em dias úteis na hospedagem" em `OPERACAO.md`.
 - **O fluxo de login nunca rodou contra o Google de verdade**, nem tem teste automatizado. O primeiro acesso é o primeiro teste real.
 - **Backup não é automático.** `npm run backup` exporta sob demanda; o PITR do provedor é o complemento recomendado.
 - **A prévia local continua sendo a prévia local.** O seletor de integrante não autentica ninguém e só funciona em loopback; em produção ele não existe.
