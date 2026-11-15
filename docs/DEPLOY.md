@@ -34,7 +34,7 @@ A `neon init` escreveu as duas connection strings em `.env.local`, na raiz do re
 | `DATABASE_URL` | **a que vai para a Vercel** — com pooling (tem `-pooler` no host) |
 | `DATABASE_URL_UNPOOLED` | conexão direta, para migração ou inspeção pontual |
 
-Para ver o valor sem abrir o arquivo em tela cheia: `neon connection-string`.
+Para ver o valor sem abrir o arquivo em tela cheia: `neon connection-string --pooled`.
 
 Como o banco está em São Paulo, o `vercel.json` fixa a função em `gru1` (mesma cidade). Se a Vercel recusar a região no seu plano, tire a linha `"regions"` do arquivo — o site sobe em `iad1` e cada consulta passa a custar uns 120 ms a mais.
 
@@ -42,7 +42,9 @@ Como o banco está em São Paulo, o `vercel.json` fixa a função em `gru1` (mes
 
 Não crie tabela nenhuma. A central cria o esquema e cadastra os sete membros sozinha, na primeira conexão.
 
-## Etapa 2 — Importar na Vercel
+## Etapa 2 — Importar na Vercel ✔ feito
+
+O site está em <https://volta-ashy.vercel.app>, com a função rodando em `gru1` (confirmado pelo cabeçalho `x-vercel-id`). Responde 503 até a etapa 4. No preset da importação use **Other**, não Node: o repositório não tem passo de build.
 
 1. Entre na [Vercel](https://vercel.com) com o GitHub.
 2. *Add New → Project* e importe `central-startup`.
@@ -63,7 +65,7 @@ No [Google Auth Platform](https://console.developers.google.com/auth), com o end
 4. Em **Authorized redirect URIs**, acrescente exatamente:
 
    ```
-   https://SEU-ENDERECO.vercel.app/auth/callback
+   https://volta-ashy.vercel.app/auth/callback
    ```
 
    Sem barra no fim, em HTTPS, com esse caminho. Qualquer diferença vira `redirect_uri_mismatch`.
@@ -77,8 +79,8 @@ Na Vercel, em *Settings → Environment Variables*, ambiente **Production**:
 
 | Variável | Valor |
 |---|---|
-| `DATABASE_URL` | a URL com pooling da etapa 1 |
-| `PUBLIC_ORIGIN` | o endereço da etapa 2, sem barra no fim |
+| `DATABASE_URL` | a URL com pooling da etapa 1, de `.env.local` ou `neon connection-string --pooled` |
+| `PUBLIC_ORIGIN` | `https://volta-ashy.vercel.app` (sem barra no fim) |
 | `OIDC_ISSUER` | `https://accounts.google.com` |
 | `OIDC_CLIENT_ID` | o ID da etapa 3 |
 | `OIDC_CLIENT_SECRET` | o segredo da etapa 3 |
