@@ -71,3 +71,13 @@ Executado: `npm run check` passou; `npm test` **16**; `npm run test:ui` **19**; 
 Resíduos da troca de 3D para 2D, retirados sem mudança de comportamento visível: dependência `three` removida do `package.json` (24 MB em `node_modules`), rotas `/vendor/three.module.js` e `/vendor/three.core.js` retiradas de `src/server/static.mts`, e `expressive.css` tirado do runtime para `archive/studio-v1/`. Nenhuma página carregava qualquer um deles. A regra de URLs estáveis da reorganização deixa de valer para essas três rotas, que agora respondem 404; `tests/integration/static-assets.mjs` passou a exigir esse 404. Texto de operação que ainda descrevia a cena 3D foi corrigido.
 
 Executado após a limpeza: `npm run check` passou; `npm test` **24**; `npm run test:ui` **19**; `npm run test:studio` **12**. Nenhum arquivo de dados, captura versionada ou registro histórico foi apagado.
+
+## 15/11/2026 — lembretes na hospedagem e a aba Conhecimento
+
+**Lembretes.** O `dailyReminders` só era chamado pelo servidor local, então em produção ninguém recebia lembrete nenhum. Agora existe `GET /jobs/reminders`, fora de `/api/` para não passar pela sessão, protegida por `CRON_SECRET` com comparação em tempo constante (`timingSafeEqual`) e inexistente na prévia e sem o segredo. O `vercel.json` agenda `0 19 * * 1-5`. Dois testes novos em `tests/integration/cron-reminders.mjs` cobrem 404 sem segredo, 403 com segredo errado do mesmo comprimento e a limpeza de sessões vencidas na chamada válida.
+
+**Conhecimento.** A aba era uma lista de títulos com uma linha de metadados. Agora cada documento é um card com etiqueta de visibilidade e de estado, um resumo tirado da primeira linha de texto que não repete o título, e o rodapé com autor, data, arquivo e tamanho. A legenda abaixo do título explica o que cada etiqueta quer dizer. O bloco de origens deixou de ser três palavras soltas e passou a dizer, em uma frase cada, o que está disponível e o que não está — sem prometer integração que não existe. O detalhe do documento ganhou ficha com autor, data, arquivo, tamanho e impressão digital (12 caracteres do hash).
+
+**Etiquetas.** `label(texto, tom)` com cinco tons reaproveitando as variáveis dos crachás de prioridade, então alto contraste e os temas para daltonismo continuam valendo. A cor nunca carrega sozinha a informação: o texto diz o mesmo. Aplicadas à situação das atividades e das publicações, e à visibilidade e ao estado dos documentos.
+
+Verificação: `npm run check`, `npm test` (27), `npm run test:ui` (19) e `npm run test:studio` (12) passaram; a aba foi conferida numa prévia descartável (`DATA_DIR=.data/ui-check`) com a carga fictícia, sem tocar em `.data/preview`.

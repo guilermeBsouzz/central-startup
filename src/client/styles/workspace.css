@@ -257,3 +257,35 @@ legend { padding: 0 .4rem; font-weight: 600; }
   .nav-inner a[aria-current="page"] { border-bottom-color: Highlight; }
   progress { forced-color-adjust: auto; }
 }
+
+/* Etiquetas com cor indicativa: tom pelas mesmas variáveis dos crachás de
+   prioridade, então alto contraste e os temas para daltonismo continuam valendo.
+   A cor nunca carrega sozinha a informação: o texto da etiqueta diz o mesmo. */
+.label { display: inline-flex; align-items: center; gap: .4rem; font-size: .8125rem; font-weight: 650; line-height: 1.5; padding: .12rem .6rem; border: 1px solid currentColor; border-radius: 999px; white-space: nowrap; }
+.label::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex: none; }
+.label[data-tone="go"] { color: var(--low); background: var(--low-bg); }
+.label[data-tone="wait"] { color: var(--medium); background: var(--medium-bg); }
+.label[data-tone="stop"] { color: var(--high); background: var(--high-bg); }
+.label[data-tone="done"] { color: var(--ink); background: var(--soft); }
+.label[data-tone="idle"], .label[data-tone="off"] { color: var(--muted); background: var(--paper); }
+.label-row { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: .7rem; }
+.lede { font-size: 1.05rem; color: var(--muted); max-width: 68ch; margin-bottom: 1.25rem; }
+.count { display: inline-block; font-size: .875rem; font-weight: 650; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 0 .55rem; vertical-align: middle; }
+.legend { display: flex; align-items: center; gap: .45rem; flex-wrap: wrap; font-size: .875rem; color: var(--muted); margin: -.25rem 0 1.25rem; }
+.doc-grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); }
+.doc-grid > li { min-width: 0; display: flex; }
+.doc-card { display: flex; flex-direction: column; width: 100%; }
+.doc-card h3 { margin: 0 0 .4rem; font-size: 1.08rem; line-height: 1.4; }
+.doc-card h3 a { text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.doc-excerpt { color: var(--muted); margin: 0 0 1rem; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.doc-card .meta { margin: auto 0 0; padding-top: .8rem; border-top: 1px solid var(--line); font-size: .8125rem; gap: .35rem .9rem; }
+.doc-facts { margin-bottom: 1.5rem; }
+.doc-facts code { font-size: .875rem; overflow-wrap: anywhere; }
+.source-status { margin-top: 1.75rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+.source-status summary { min-height: 44px; display: flex; align-items: center; font-weight: 650; cursor: pointer; }
+.source-status dl { margin: .5rem 0 0; display: grid; gap: 1rem; }
+.source-status dt { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; font-weight: 650; }
+.source-status dd { margin: .25rem 0 0; color: var(--muted); max-width: 72ch; }
+@media (max-width: 620px) {
+  .doc-grid { grid-template-columns: 1fr; }
+}
